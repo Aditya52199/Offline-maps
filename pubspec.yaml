@@ -1,1 +1,11 @@
-
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_map: ^7.0.0
+  flutter_map_mbtiles: ^1.0.0      # Maps MBTiles offline rendering
+  sqlite3_flutter_libs: ^0.5.0     # Required underlying SQLite native libraries
+  geolocator: ^13.0.0              # Native GPS hardware access
+  latlong2: ^0.9.0                 # Coordinate geometry
+  tflite_flutter: ^0.11.0          # On-device AI execution
+  sqflite: ^2.3.0                  # Local POI queries
+  ffi: ^2.1.2                      # C++ binding for the routing engine
