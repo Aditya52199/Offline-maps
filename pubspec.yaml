@@ -1,3 +1,9 @@
+name: my_offline_gps
+description: An offline AI GPS application.
+version: 1.0.0+1
+
+environment:
+  sdk: '^3.13.0'
 dependencies:
   flutter:
     sdk: flutter
