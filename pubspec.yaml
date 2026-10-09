@@ -15,3 +15,6 @@ dependencies:
   tflite_flutter: ^0.11.0          # On-device AI execution
   sqflite: ^2.3.0                  # Local POI queries
   ffi: ^2.1.2                      # C++ binding for the routing engine
+
+
+  # ... rest of your dependencies
