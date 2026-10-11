@@ -6,9 +6,9 @@ plugins {
 
 android {
     namespace = "com.example.my_offline_gps"
-    compileSdk = 34
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
-    
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -38,6 +38,7 @@ kotlin {
 flutter {
     source = "../.."
 }
+
 configurations.all {
     resolutionStrategy {
         force("org.tensorflow:tensorflow-lite:2.16.1")
