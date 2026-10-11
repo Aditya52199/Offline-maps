@@ -24,14 +24,11 @@ tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
 
-// Override compileSdk for plugins that specify an older SDK
+// Apply SDK 34 and JVM 1.8 without using afterEvaluate
 subprojects {
-    afterEvaluate {
-        if (project.hasProperty("android")) {
-            val androidExt = project.extensions.findByName("android")
-            if (androidExt is com.android.build.gradle.BaseExtension) {
-                androidExt.compileSdkVersion(34)
-            }
+    plugins.withId("com.android.library") {
+        configure<com.android.build.gradle.LibraryExtension> {
+            compileSdk = 34
         }
     }
 
