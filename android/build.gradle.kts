@@ -17,26 +17,26 @@ subprojects {
 }
 
 subprojects {
+    afterEvaluate {
+        val androidExt = project.extensions.findByName("android") as? com.android.build.gradle.BaseExtension
+        androidExt?.compileSdkVersion(36)
+
+        tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+            compilerOptions {
+                jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+            }
+        }
+        tasks.withType<JavaCompile>().configureEach {
+            sourceCompatibility = "17"
+            targetCompatibility = "17"
+        }
+    }
+}
+
+subprojects {
     project.evaluationDependsOn(":app")
 }
 
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
-}
-
-subprojects {
-    plugins.withId("com.android.library") {
-        val androidExt = extensions.findByType(com.android.build.gradle.BaseExtension::class.java)
-        androidExt?.compileSdkVersion(36)
-    }
-
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-        compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
-        }
-    }
-    tasks.withType<JavaCompile>().configureEach {
-        sourceCompatibility = "1.8"
-        targetCompatibility = "1.8"
-    }
 }
