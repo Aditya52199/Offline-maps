@@ -3,3 +3,8 @@ sources/
 assets/
 mapprocessing/
 build/
+# Flutter/Dart build artifacts
+build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies   
