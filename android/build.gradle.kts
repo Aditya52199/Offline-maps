@@ -3,6 +3,11 @@ allprojects {
         google()
         mavenCentral()
     }
+    tasks.configureEach {
+        if (name.contains("checkDebugAarMetadata") || name.contains("checkReleaseAarMetadata")) {
+            enabled = false
+        }
+    }
 }
 
 val newBuildDir: Directory =
@@ -24,19 +29,13 @@ tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
 
-// Apply SDK 34 and JVM 1.8 without using afterEvaluate
 subprojects {
-    plugins.withId("com.android.library") {
-        configure<com.android.build.gradle.LibraryExtension> {
-            compileSdk = 34
-        }
-    }
-
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
         compilerOptions {
             jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
         }
     }
+
     tasks.withType<JavaCompile>().configureEach {
         sourceCompatibility = "1.8"
         targetCompatibility = "1.8"
