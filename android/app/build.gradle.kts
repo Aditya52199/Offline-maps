@@ -5,7 +5,6 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
-// ... the rest of the file stays exactly the same
 android {
     namespace = "com.example.my_offline_gps"
     compileSdk = 36
