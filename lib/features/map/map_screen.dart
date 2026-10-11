@@ -14,10 +14,14 @@ class MapScreen extends StatelessWidget {
           initialCenter: LatLng(23.2599, 77.4126),
           initialZoom: 12,
         ),
-        children: const [
-          // TODO: Replace with the offline MBTiles tile layer.
-          RichAttributionWidget(
-            attributions: [
+        children: [
+          // Offline MBTiles tile layer served locally
+          TileLayer(
+            urlTemplate: 'http://localhost:8080/styles/basic/{z}/{x}/{y}.png',
+            maxZoom: 18,
+          ),
+          const RichAttributionWidget(
+            attributions: const [
               TextSourceAttribution('Offline map placeholder'),
             ],
           ),
