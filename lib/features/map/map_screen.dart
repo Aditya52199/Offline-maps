@@ -54,6 +54,7 @@ class _MapScreenState extends State<MapScreen> {
   Future<void> _initOfflineMap() async {
     try {
       debugPrint('Initializing MBTiles...');
+<<<<<<< HEAD
       
       // 1. Get the device's local documents directory
       final appDir = await getApplicationDocumentsDirectory();
@@ -73,6 +74,9 @@ class _MapScreenState extends State<MapScreen> {
       // 3. Initialize the manager with the required absolute path
       await _mbtilesManager.initialize(mbtilesPath: mbtilesPath);
       
+=======
+      await _mbtilesManager.initialize(mbtilesPath: 'assets/offline_map.mbtiles');
+>>>>>>> b5d94d3 (added mbtiles path in mapscreen.dart)
       debugPrint('MBTiles initialized successfully!');
       if (mounted) {
         setState(() {
