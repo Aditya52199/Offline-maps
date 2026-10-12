@@ -145,7 +145,7 @@ class _MapScreenState extends State<MapScreen> {
                   VectorTileLayer(
                     theme: vtr.ProvidedThemes.lightTheme(),
                     tileProviders: TileProviders({
-                      'openmaptiles': _mbtilesManager.provider,
+                      'openmaptiles': _mbtilesManager.getTileProvider(),
                     }),
                   ),
 
