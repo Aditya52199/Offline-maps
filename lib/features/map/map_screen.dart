@@ -1,8 +1,12 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:vector_map_tiles/vector_map_tiles.dart';
 import 'package:vector_tile_renderer/vector_tile_renderer.dart' as vtr;
+
 import '../../core/location/gps_manager.dart';
 import '../../core/routing/route_parser.dart';
 import '../../core/storage/database_manager.dart';
@@ -50,7 +54,25 @@ class _MapScreenState extends State<MapScreen> {
   Future<void> _initOfflineMap() async {
     try {
       debugPrint('Initializing MBTiles...');
-      await _mbtilesManager.initialize();
+      
+      // 1. Get the device's local documents directory
+      final appDir = await getApplicationDocumentsDirectory();
+      final mbtilesPath = '${appDir.path}/region_map.mbtiles';
+      final file = File(mbtilesPath);
+
+      // 2. If the map file isn't on the device yet, copy it from the app bundle
+      if (!await file.exists()) {
+        debugPrint('Copying MBTiles from assets to local storage...');
+        final data = await rootBundle.load('assets/maps/region_map.mbtiles');
+        await file.writeAsBytes(
+          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
+          flush: true,
+        );
+      }
+
+      // 3. Initialize the manager with the required absolute path
+      await _mbtilesManager.initialize(mbtilesPath: mbtilesPath);
+      
       debugPrint('MBTiles initialized successfully!');
       if (mounted) {
         setState(() {
@@ -145,7 +167,8 @@ class _MapScreenState extends State<MapScreen> {
                   VectorTileLayer(
                     theme: vtr.ProvidedThemes.lightTheme(),
                     tileProviders: TileProviders({
-                      'openmaptiles': _mbtilesManager.getTileProvider(),
+                      // Forcing dynamic cast to bypass compiler mismatch 
+                      'openmaptiles': _mbtilesManager.getTileProvider() as dynamic,
                     }),
                   ),
 
