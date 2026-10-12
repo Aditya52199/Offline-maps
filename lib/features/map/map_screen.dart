@@ -168,7 +168,7 @@ class _MapScreenState extends State<MapScreen> {
                     theme: vtr.ProvidedThemes.lightTheme(),
                     tileProviders: TileProviders({
                       // Forcing dynamic cast to bypass compiler mismatch 
-                      'openmaptiles': _mbtilesManager.getTileProvider() as dynamic,
+                     'openmaptiles': _mbtilesManager.provider as dynamic,
                     }),
                   ),
 
