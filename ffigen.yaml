@@ -1,0 +1,10 @@
+name: ValhallaBindings
+description: Bindings for the Valhalla Routing Engine
+output: 'lib/core/routing/valhalla_generated_bindings.dart'
+
+headers:
+  entry-points:
+    - 'android/app/src/main/cpp/valhalla_wrapper.h'
+
+compiler-opts:
+  - '-Iandroid/app/src/main/cpp'
