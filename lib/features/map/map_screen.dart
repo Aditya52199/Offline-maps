@@ -32,8 +32,8 @@ class _MapScreenState extends State<MapScreen> {
   bool _mbtilesReady = false;
   String? _initError;
 
-  // Default initial position centered on Monaco region (matching offline MBTiles asset)
-  LatLng _currentPosition = const LatLng(43.7350, 7.4200);
+  // Initial position centered on Bhopal (Central Zone MBTiles coverage)
+  LatLng _currentPosition = const LatLng(23.2599, 77.4126);
   LatLng? _destinationPosition;
   String? _destinationName;
 
@@ -55,23 +55,22 @@ class _MapScreenState extends State<MapScreen> {
     try {
       debugPrint('Initializing MBTiles...');
 
-      
-      // 1. Get the device's local documents directory
       final appDir = await getApplicationDocumentsDirectory();
       final mbtilesPath = '${appDir.path}/region_map.mbtiles';
       final file = File(mbtilesPath);
 
-      // 2. If the map file isn't on the device yet, copy it from the app bundle
-      if (!await file.exists()) {
-        debugPrint('Copying MBTiles from assets to local storage...');
-        final data = await rootBundle.load('assets/maps/region_map.mbtiles');
+      // Copy MBTiles asset if not present or incomplete
+      final data = await rootBundle.load('assets/maps/region_map.mbtiles');
+      final expectedLength = data.lengthInBytes;
+
+      if (!await file.exists() || (await file.length()) != expectedLength) {
+        debugPrint('Copying MBTiles asset ($expectedLength bytes) to storage...');
         await file.writeAsBytes(
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
           flush: true,
         );
       }
 
-      // 3. Initialize the manager with the required absolute path
       await _mbtilesManager.initialize(mbtilesPath: mbtilesPath);
       
 
