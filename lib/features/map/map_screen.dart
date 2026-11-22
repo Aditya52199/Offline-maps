@@ -1,14 +1,10 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:vector_map_tiles/vector_map_tiles.dart';
 import 'package:vector_tile_renderer/vector_tile_renderer.dart' as vtr;
-
 import '../../core/location/gps_manager.dart';
-import '../../core/routing/route_parser.dart';
+import '../../core/routing/routing_ffi.dart';
 import '../../core/storage/database_manager.dart';
 import '../../core/storage/mbtiles_manager.dart';
 import '../navigation/navigation_panel.dart';
@@ -27,12 +23,12 @@ class _MapScreenState extends State<MapScreen> {
   final MbtilesManager _mbtilesManager = MbtilesManager();
   final DatabaseManager _dbManager = DatabaseManager();
   final GpsManager _gpsManager = GpsManager();
-  final RouteParser _routeParser = RouteParser();
+  final RoutingFfi _routingFfi = RoutingFfi();
 
   bool _mbtilesReady = false;
   String? _initError;
 
-  // Initial position centered on Bhopal (Central Zone MBTiles coverage)
+  // Default initial position centered on Central India (Bhopal)
   LatLng _currentPosition = const LatLng(23.2599, 77.4126);
   LatLng? _destinationPosition;
   String? _destinationName;
@@ -54,26 +50,7 @@ class _MapScreenState extends State<MapScreen> {
   Future<void> _initOfflineMap() async {
     try {
       debugPrint('Initializing MBTiles...');
-
-      final appDir = await getApplicationDocumentsDirectory();
-      final mbtilesPath = '${appDir.path}/region_map.mbtiles';
-      final file = File(mbtilesPath);
-
-      // Copy MBTiles asset if not present or incomplete
-      final data = await rootBundle.load('assets/maps/region_map.mbtiles');
-      final expectedLength = data.lengthInBytes;
-
-      if (!await file.exists() || (await file.length()) != expectedLength) {
-        debugPrint('Copying MBTiles asset ($expectedLength bytes) to storage...');
-        await file.writeAsBytes(
-          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
-          flush: true,
-        );
-      }
-
-      await _mbtilesManager.initialize(mbtilesPath: mbtilesPath);
-      
-
+      await _mbtilesManager.initialize();
       debugPrint('MBTiles initialized successfully!');
       if (mounted) {
         setState(() {
@@ -104,6 +81,12 @@ class _MapScreenState extends State<MapScreen> {
   Future<void> _requestGps() async {
     final hasPermission = await _gpsManager.requestPermission();
     if (hasPermission) {
+      final initialPos = await _gpsManager.getCurrentPosition();
+      if (initialPos != null && mounted) {
+        setState(() {
+          _currentPosition = LatLng(initialPos.latitude, initialPos.longitude);
+        });
+      }
       _gpsManager.positionStream.listen((pos) {
         if (mounted) {
           setState(() {
@@ -114,17 +97,22 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
-  void _onSelectDestination(LatLng location, String name) {
+  Future<void> _onSelectDestination(LatLng location, String name) async {
     setState(() {
       _destinationPosition = location;
       _destinationName = name;
-
-      _routePoints = _routeParser.generateRouteWaypoints(_currentPosition, location);
-      final distKm = _routeParser.calculateDistanceKm(_currentPosition, location);
-      _routeDistance = '${distKm.toStringAsFixed(1)} km';
-      final minutes = (distKm / 30.0 * 60.0).round();
-      _routeDuration = '$minutes mins';
     });
+
+    final routeResult = await _routingFfi.calculateRoute(_currentPosition, location);
+    if (mounted) {
+      setState(() {
+        _routePoints = routeResult['waypoints'] as List<LatLng>;
+        final distKm = (routeResult['distanceKm'] as num).toDouble();
+        final minutes = (routeResult['durationMins'] as num).toInt();
+        _routeDistance = '${distKm.toStringAsFixed(1)} km';
+        _routeDuration = '$minutes mins';
+      });
+    }
 
     _mapController.centerOn(location, zoom: 14);
   }
@@ -168,12 +156,11 @@ class _MapScreenState extends State<MapScreen> {
                   VectorTileLayer(
                     theme: vtr.ProvidedThemes.lightTheme(),
                     tileProviders: TileProviders({
-                      // Forcing dynamic cast to bypass compiler mismatch 
-                     'openmaptiles': _mbtilesManager.provider as dynamic,
+                      'openmaptiles': _mbtilesManager.provider,
                     }),
                   ),
 
-                  // Route Polyline
+                  // Route Polyline (Valhalla routed)
                   if (_routePoints.isNotEmpty)
                     PolylineLayer(
                       polylines: [
@@ -255,7 +242,7 @@ class _MapScreenState extends State<MapScreen> {
                       if (_initError == null) ...[
                         const CircularProgressIndicator(),
                         const SizedBox(height: 16),
-                        const Text('Loading Offline Vector Map...'),
+                        const Text('Loading Offline Vector Map (Valhalla Routing)...'),
                       ] else ...[
                         const Icon(Icons.error_outline, color: Colors.red, size: 48),
                         const SizedBox(height: 16),

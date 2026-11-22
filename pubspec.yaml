@@ -8,26 +8,27 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_map: ^7.0.2
+  flutter_map: ^8.3.2
   flutter_map_mbtiles: ^1.0.0
-  mbtiles: ^0.4.2
-  vector_map_tiles: ^8.0.0
-  vector_map_tiles_mbtiles: ^1.2.0
-  vector_tile_renderer: ^5.2.1
-  sqlite3_flutter_libs: ^0.5.0
-  geolocator: ^13.0.0
-  latlong2: ^0.9.1
-  tflite_flutter: ^0.11.0
+  mbtiles: ^0.5.1
+  vector_map_tiles: ^9.0.0-beta.13
+  vector_map_tiles_mbtiles: ^1.2.2
+  vector_tile_renderer: ^6.1.0
+  sqlite3: ^3.9.1
+  sqlite3_flutter_libs: ^0.6.0+eol
+  geolocator: ^14.1.2
+  latlong2: ^0.10.1
+  tflite_flutter: ^0.12.1
   sqflite: ^2.3.0
   ffi: ^2.2.0
   path: ^1.9.0
   path_provider: ^2.1.2
-  flutter_map_cancellable_tile_provider: ^3.0.2
+  http: ^1.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^6.0.0
   ffigen: ^23.0.0
 
 flutter:

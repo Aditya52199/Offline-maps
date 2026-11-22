@@ -102,7 +102,14 @@ install(CODE "
 install(DIRECTORY "${PROJECT_BUILD_DIR}/${FLUTTER_ASSET_DIR_NAME}"
   DESTINATION "${INSTALL_BUNDLE_DATA_DIR}" COMPONENT Runtime)
 
-# Install the AOT library on non-Debug builds only.
+# Ensure the Flutter engine library is built before the install step
+if(FLUTTER_LIBRARY)
+    # Create a dummy target that depends on the generated Flutter library file
+    add_custom_target(flutter_engine_lib DEPENDS "${FLUTTER_LIBRARY}")
+    # Make the main executable depend on this target so the file exists when installing
+    add_dependencies(${BINARY_NAME} flutter_engine_lib)
+endif()
+
 install(FILES "${AOT_LIBRARY}" DESTINATION "${INSTALL_BUNDLE_DATA_DIR}"
   CONFIGURATIONS Profile;Release
   COMPONENT Runtime)
