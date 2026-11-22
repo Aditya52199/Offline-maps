@@ -5,7 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6072f7aa-0758-4028-a2b6-b3cb703cf3c9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/build/reports/problems/problems-report.html" beforeDir="false" afterPath="$PROJECT_DIR$/android/build/reports/problems/problems-report.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/android/settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/maps/region.osm.pbf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/routing/routing_ffi.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/routing/routing_ffi.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/storage/mbtiles_manager.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/storage/mbtiles_manager.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/map/map_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/map/map_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/navigation/navigation_panel.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/navigation/navigation_panel.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/search/search_overlay.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/search/search_overlay.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map_processing/data/central-zone-261007.osm.pbf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mock_valhalla.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/windows/CMakeLists.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

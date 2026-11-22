@@ -13,5 +13,25 @@ class GpsManager {
         permission == LocationPermission.whileInUse;
   }
 
-  Stream<Position> get positionStream => Geolocator.getPositionStream();
+  Future<Position?> getCurrentPosition() async {
+    try {
+      final hasPerm = await requestPermission();
+      if (!hasPerm) return null;
+      return await Geolocator.getCurrentPosition(
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+          timeLimit: Duration(seconds: 4),
+        ),
+      );
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Stream<Position> get positionStream => Geolocator.getPositionStream(
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+          distanceFilter: 3,
+        ),
+      );
 }
