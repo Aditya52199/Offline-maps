@@ -1,0 +1,8 @@
+{
+    "mjolnir": {
+        "tile_dir": "/data/valhalla_tiles",
+        "concurrency": 4,
+        "max_cache_size": 1000,
+        "inline_level": 3
+    }
+}
